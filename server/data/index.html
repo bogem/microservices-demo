@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Microservices Demo</title>
+
+    <script>
+      const baseURL = "http://localhost:8081";
+
+      function sendText(e) {
+        e.preventDefault();
+
+        const textEl = document.getElementById("text-to-speech");
+
+        const formData = new FormData();
+        formData.append("text", textEl.value);
+
+        fetch(baseURL+"/convertTextToSpeech", { method: "POST", body: formData })
+          .then(() => {
+            const audio = document.getElementById("speech");
+            audio.style.display = "block";
+            audio.src = baseURL+"/audio";
+          })
+          .catch(err => console.log(err));
+      }
+
+      window.onload = function () {
+        const form = document.querySelector("form")
+        form.addEventListener("submit", sendText);
+      }
+    </script>
+  </head>
+  <body>
+    <form method="POST">
+      <label>Text auszusprechen: <input id="text-to-speech" type="text" /></label>
+      <br />
+      <button type="submit">Senden</button>
+    </form>
+
+    <audio
+        controls
+        id="speech"
+        style="display:none"
+    >
+        Your browser does not support the <code>audio</code> element.
+    </audio>
+  </body>
+</html>

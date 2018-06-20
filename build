@@ -1,0 +1,20 @@
+echo 'Generating protocol buffers...'
+cd ./api
+protoc -I . say.proto --go_out=plugins=grpc:.
+cd ..
+
+cd ./server
+echo 'Building server binary...'
+GOOS=linux go build -o server
+echo 'Building server container...'
+docker build -t bogem/server .
+rm -f server
+cd ..
+
+cd ./tts
+echo 'Building tts binary...'
+GOOS=linux go build -o tts
+echo 'Building tts container...'
+docker build -t bogem/tts .
+rm -f tts
+cd ..

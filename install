@@ -1,0 +1,6 @@
+go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
+go get -u golang.org/x/net/context
+go get -u google.golang.org/grpc
+
+docker network create --driver=bridge --subnet=192.168.0.0/29 microservices
+
