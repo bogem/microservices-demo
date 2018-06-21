@@ -17,7 +17,7 @@ func main() {
 	port := flag.Int("p", 8080, "port to listen to")
 	flag.Parse()
 
-	log.Printf("listening to port %d", *port)
+	log.Printf("Start auf Port %d", *port)
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		log.Fatalf("could not listen to port %d: %v", *port, err)
@@ -34,6 +34,7 @@ func main() {
 type server struct{}
 
 func (server) Say(_ context.Context, text *api.Text) (*api.Speech, error) {
+	log.Println("Empfang (gRPC): Abfrage an Audio mit Text: %q", text.Text)
 	f, err := ioutil.TempFile("", "")
 	if err != nil {
 		return nil, fmt.Errorf("could not create tmp file: %v", err)
@@ -51,5 +52,6 @@ func (server) Say(_ context.Context, text *api.Text) (*api.Speech, error) {
 	if err != nil {
 		return nil, fmt.Errorf("could not read tmp file: %v", err)
 	}
+	log.Println("Absendung (gRPC): Audio")
 	return &api.Speech{Audio: data}, nil
 }
