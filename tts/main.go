@@ -34,7 +34,7 @@ func main() {
 type server struct{}
 
 func (server) Say(_ context.Context, text *api.Text) (*api.Speech, error) {
-	log.Println("Empfang (gRPC): Abfrage an Audio mit Text: %q", text.Text)
+	log.Printf("Empfang (gRPC): Abfrage an Audio mit Text: %q\n", text.Text)
 	f, err := ioutil.TempFile("", "")
 	if err != nil {
 		return nil, fmt.Errorf("could not create tmp file: %v", err)
